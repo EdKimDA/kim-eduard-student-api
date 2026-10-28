@@ -114,7 +114,7 @@ Create a student before `down` and retrieve the same database-generated ID after
 Inspect an image without exposing database credentials:
 
 ```bash
-docker image inspect kim-eduard-student-api:v1.0.0-kim-eduard-37324 --format 'ID={{.Id}} Size={{.Size}} Created={{.Created}}'
+docker image inspect kim-eduard-student-api:v1.0.1-kim-eduard-37324 --format 'ID={{.Id}} Size={{.Size}} Created={{.Created}}'
 ```
 
 For a new application version, update `appVersion` and the Compose image tag together, commit the change, then run `docker compose up -d --build`.
@@ -146,3 +146,10 @@ git check-ignore .env logs/Kim_Eduard_system_report.log
 ```
 
 Release tag: `v1.0-kim-eduard`. Credentials, `.env`, local Gradle caches, generated logs and database data are not committed.
+
+## Midterm preparation
+
+Russian step-by-step guide: [MIDTERM_GUIDE_RU.txt](MIDTERM_GUIDE_RU.txt).
+Answers to all 80 defense questions: [DEFENSE_ANSWERS_RU.txt](DEFENSE_ANSWERS_RU.txt).
+Version 1.0.1 demonstrates rebuilding after an application version change.
+The required release tag `v1.0-kim-eduard` remains attached to the original 1.0 release commit.

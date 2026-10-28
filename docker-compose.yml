@@ -3,7 +3,7 @@ name: kim-eduard-student-api
 services:
   app:
     build: .
-    image: kim-eduard-student-api:v1.0.0-kim-eduard-37324
+    image: kim-eduard-student-api:v1.0.1-kim-eduard-37324
     container_name: kim-eduard-student-api-app
     ports:
       - "127.0.0.1:${APP_PORT:-8081}:8080"

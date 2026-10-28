@@ -1,0 +1,246 @@
+Вопросы защиты DevOps midterm
+Kim Eduard • IT2-2313 • 37324
+
+Вопросы из предоставленного DOCX в исходном порядке. Ответы — для понимания и пересказа своими словами. Практические команды и сценарий: MIDTERM_GUIDE_RU.txt.
+
+1. What is Docker, and why is it useful in DevOps?
+Docker собирает и запускает приложения в изолированных контейнерах с их зависимостями. Это помогает повторять окружение на разных машинах. Контейнеры используют ядро ОС, поэтому это не отдельная полноценная виртуальная машина для каждого приложения.
+
+2. What does the git commit command do?
+git commit сохраняет снимок подготовленного через git add содержимого в локальной истории с автором и сообщением. На GitHub он попадёт только после git push.
+
+3. What is the purpose of the shebang line #!/bin/bash?
+Shebang указывает интерпретатор для прямого запуска скрипта: #!/bin/bash — Bash по этому пути. В проекте #!/usr/bin/env bash ищет Bash через PATH.
+
+4. What is a Jenkinsfile?
+Jenkinsfile — обычный текстовый файл в Git, который описывает pipeline: где и в каком порядке выполнять checkout, сборку, тесты и другие шаги. Изменения pipeline можно просматривать в Git как изменения кода.
+
+5. What is the difference between a Docker image and a Docker container?
+Image — шаблон файловой системы и настроек запуска. Container — экземпляр image со своим состоянием и записываемым слоем; он может быть запущен или остановлен. Из одного образа можно создать несколько контейнеров.
+
+6. What is the purpose of the pwd command?
+pwd печатает абсолютный путь текущей рабочей директории. Это помогает убедиться, что команды выполняются в правильном проекте.
+
+7. What is Continuous Integration (CI)?
+Continuous Integration — частое объединение изменений с автоматической сборкой и тестами для раннего обнаружения проблем. Здесь после push Jenkins проверяет код и Docker-образ.
+
+8. What is a Git branch, and why do developers use branches?
+Ветка — перемещаемый указатель на коммит. Она позволяет развивать изменение отдельно от main, а потом объединить историю. В проекте есть персональные ветки CRUD, documentation и ci-demo.
+
+9. What is the difference between RUN and CMD in a Dockerfile?
+RUN выполняет команду при сборке образа. CMD задаёт команду или аргументы по умолчанию для запуска контейнера. В нашем Dockerfile итоговый процесс задаёт ENTRYPOINT java -jar; CMD не используется.
+
+10. How can you check available disk space in Linux?
+df -h показывает занятое и доступное место файловых систем; df -h . — для текущего каталога. du -sh folder показывает размер каталога и отвечает на другой вопрос.
+
+11. What is the difference between Git and GitHub?
+Git — распределённая система контроля версий, работает локально без GitHub. GitHub — сервис размещения Git-репозиториев и совместной работы.
+
+12. What is Docker Compose, and why is it useful for this project?
+Compose описывает несколько сервисов в YAML и управляет ими вместе. У нас это app, PostgreSQL db, сеть, volume, переменные и порядок готовности.
+
+13. What does the chmod command do?
+chmod меняет права доступа. Для личного скрипта требуется chmod 744: владелец rwx, группа r--, остальные r--. ls -l показывает результат.
+
+14. What is the purpose of the Checkout stage in Jenkins?
+Checkout получает нужную версию исходников из SCM на агент. checkout scm использует URL и ветку из настроек нашей Job.
+
+15. What is the difference between > and >> in Linux?
+> перезаписывает файл, создавая его при отсутствии. >> добавляет в конец, тоже создавая при отсутствии. Например grep Kim log > analysis.txt сохраняет новый результат поиска.
+
+16. What is a merge conflict, and why can it happen?
+Конфликт возникает, когда Git не может однозначно объединить изменения, например разные правки одной строки README от общего предка. Человек выбирает корректный итоговый текст.
+
+17. What is a Docker volume, and why is it important for PostgreSQL?
+Docker volume — управляемое Docker хранилище отдельно от записываемого слоя контейнера. Файлы PostgreSQL находятся в named volume, поэтому пересоздание контейнера не теряет записи. Явное удаление volume всё же удалит эти данные.
+
+18. What is the difference between Continuous Delivery and Continuous Deployment?
+Continuous Delivery поддерживает проверенную версию готовой к релизу, а решение о production-выпуске обычно остаётся человеку. Continuous Deployment автоматически выпускает прошедшие проверки изменения. В задании автоматический deployment не требуется.
+
+19. How do you make a Bash script executable?
+В общем случае chmod u+x script.sh. По условиям именно этой работы нужно chmod 744 scripts/Kim_Eduard_system_report.sh и запуск ./scripts/Kim_Eduard_system_report.sh.
+
+20. What is the purpose of the FROM instruction in a Dockerfile?
+FROM задаёт базовый образ и начинает стадию сборки. Несколько FROM позволяют сделать multi-stage: JDK для сборки и JRE для запуска.
+
+21. What is a Jenkins job?
+Job — сохранённая в Jenkins конфигурация работы: источник кода, pipeline, triggers и история запусков. Build — один конкретный запуск Job.
+
+22. What is the difference between git fetch and git pull?
+fetch скачивает объекты и обновляет remote-tracking refs без объединения с текущей веткой. pull выполняет fetch, затем интеграцию согласно настройкам merge/rebase; pull --ff-only разрешает только fast-forward.
+
+23. How can you display the last five lines of a log file?
+tail -n 5 logs/Kim_Eduard_system_report.log. tail -f дополнительно следит за новыми строками, но в вопросе достаточно -n 5.
+
+24. What is a multi-stage Docker build, and what advantage does it provide?
+Multi-stage использует несколько стадий Dockerfile. В первой JDK и Gradle создают JAR, во вторую JRE копируется только готовый JAR. Инструменты и исходники сборки не нужны в итоговой стадии.
+
+25. What is the difference between the working directory, staging area and repository in Git?
+Working directory — редактируемые файлы. Staging area/index — подготовленный снимок будущего коммита. Repository — Git-объекты и история в .git. git add готовит, git commit фиксирует.
+
+26. Why should automated tests run before deploying an application?
+Тесты обнаруживают ошибки до публикации новой версии и уменьшают вероятность поломки работающего приложения. Они не доказывают отсутствие всех ошибок, поэтому дополнительно нужны проверки реальной среды.
+
+27. What information can the free -h command provide?
+free -h показывает общую, занятую, свободную и доступную оперативную память, buffers/cache и swap. Для оценки доступной приложениям памяти полезна колонка available, а не только free.
+
+28. What is the purpose of the WORKDIR instruction in a Dockerfile?
+WORKDIR задаёт рабочую директорию для последующих RUN, COPY с относительным назначением и команды запуска. Если каталога нет, Docker создаёт его.
+
+29. What is the difference between git merge and git rebase?
+merge объединяет истории; при необходимости создаёт merge commit и сохраняет исходные коммиты. rebase переносит коммиты на новую основу, создавая новые hash. Общую опубликованную историю без согласования переписывать нельзя.
+
+30. How can Jenkins retrieve source code from a private GitHub repository?
+Сохранить ограниченный PAT или SSH private key в Jenkins Credentials, выбрать соответствующий credentialsId в SCM, дать доступ только нужному репозиторию. Не вставлять секрет в URL, Jenkinsfile или console output.
+
+31. What is a Linux process, and how can you list running processes?
+Процесс — работающий экземпляр программы с PID. ps aux перечисляет процессы, pgrep -af java находит Java-процессы, top позволяет наблюдать загрузку в реальном времени.
+
+32. What is the purpose of the docker build command?
+docker build выполняет Dockerfile и создаёт образ. Пример: docker build -t kim-eduard-student-api:v1.0.1-kim-eduard-37324 .; точка задаёт build context.
+
+33. What is the purpose of a .gitignore file?
+.gitignore исключает подходящие ещё не отслеживаемые файлы из обычного git add: .env, build, .gradle, локальные логи. Уже закоммиченный файл он сам не удаляет и секрет из истории не стирает.
+
+34. What is the difference between a Jenkins controller and an agent?
+Controller хранит конфигурацию, планирует работы и показывает интерфейс. Agent предоставляет executor и среду выполнения шагов. В нашей локальной учебной настройке используется встроенный executor Jenkins; отдельные агенты удобнее для реальной инфраструктуры.
+
+35. What is the meaning of the permission mode 755?
+755 = rwxr-xr-x: владелец читает, пишет и запускает; группа и остальные читают и запускают. В этом задании для скрипта требуется 744, потому что группе и остальным нужен только read.
+
+36. Why does the Spring Boot container connect to PostgreSQL using the database service name instead of localhost?
+localhost внутри app указывает на сам app. PostgreSQL находится в другом контейнере, поэтому используется DNS-имя сервиса db и порт 5432 в общей Compose-сети.
+
+37. What does git status display?
+git status показывает текущую ветку, staged/unstaged изменения, untracked файлы и состояние merge/rebase. Сведения ahead/behind относятся к последнему известному состоянию remote-tracking ветки; для свежих данных нужен fetch.
+
+38. What is a Jenkins build trigger, and how can a GitHub webhook trigger a pipeline?
+Trigger определяет, когда начать сборку. Webhook передаёт событие GitHub в настроенный Jenkins endpoint; нужны соответствующая настройка Job и сетевой доступ. У нас pollSCM периодически проверяет GitHub, без входящего webhook.
+
+39. How do you pass arguments to a Bash script?
+./script.sh first second; внутри $1 и $2 — аргументы, $# — количество, "$@" — все аргументы с сохранением границ. "$0" — имя запускаемого скрипта.
+
+40. What is the difference between COPY and ADD in a Dockerfile?
+COPY копирует файлы из контекста или другой стадии. ADD умеет дополнительные действия, например распаковку локального tar и получение удалённых источников. Для простого копирования в нашем проекте достаточно COPY.
+
+41. What is the difference between docker stop and docker rm?
+docker stop останавливает процесс контейнера, оставляя контейнер. docker rm удаляет контейнер, обычно после остановки. Удаление контейнера не равнозначно явному удалению named volume.
+
+42. Why should passwords and .env files not be committed to GitHub?
+Публичная история доступна другим людям, и секрет может остаться в старых коммитах после удаления файла. Используем ignored .env локально и Jenkins Credentials для CI-секретов. При утечке сначала заменить секрет.
+
+43. What happens when a Jenkins pipeline stage fails?
+При необработанной ошибке стадии обычные последующие последовательные стадии пропускаются; выполняются подходящие post-блоки. В нашем Test ненулевой exit code от Gradle даёт FAILURE, а Docker Build/Verify не запускаются.
+
+44. How can you list hidden files in a Linux directory?
+ls -la показывает в том числе имена с точкой, например .gitignore и .env. Не открывай содержимое .env на публичной демонстрации.
+
+45. What is the difference between RUN and CMD in a Dockerfile?
+RUN — время сборки image; CMD — значение запуска по умолчанию при создании container. Это повтор вопроса 9; в нашем файле запуск задан ENTRYPOINT.
+
+46. How do you resolve a merge conflict in README.md?
+git status → открыть README → выбрать/объединить текст между конфликтными маркерами → удалить <<<<<<<, =======, >>>>>>> → git add README.md → git commit. Затем проверить итог и историю.
+
+47. What is a health check, and how can it help determine whether PostgreSQL is ready?
+Healthcheck — повторяемая команда проверки состояния сервиса. pg_isready проверяет готовность PostgreSQL принимать соединения; condition: service_healthy заставляет Compose дождаться успешного healthcheck перед запуском app.
+
+48. What is the purpose of the git push command?
+git push отправляет локальные коммиты/refs в remote. Например git push -u origin feature/kim-eduard-ci-demo публикует ветку и настраивает upstream. git commit делает только локальную запись.
+
+49. What is the difference between Declarative Pipeline and Scripted Pipeline in Jenkins?
+Declarative описывает структуру pipeline { agent ... stages ... } с заданными секциями и правилами. Scripted использует более свободный Groovy-код, часто внутри node { ... }. Наш Jenkinsfile — Declarative с небольшим script-блоком для тега.
+
+50. How can you find and terminate a process by its PID?
+Найти pgrep -af java или ps aux. После проверки PID отправить kill PID (обычно SIGTERM) и дать процессу завершиться. kill -KILL — крайняя мера, так как процесс не успевает корректно закрыться. Не завершай неизвестный Java-процесс наугад.
+
+51. What is the purpose of the EXPOSE instruction in a Dockerfile?
+EXPOSE документирует порт приложения в образе. Доступ с host создают docker run -p либо ports в Compose. Наш EXPOSE 8080 сам не открывает 8080 на компьютере.
+
+52. What are Jenkins Credentials, and why should they be used?
+Jenkins Credentials хранит секреты централизованно и позволяет ссылаться на них по ID с ограничением области. Это лучше текста в Git, но всё равно нельзя печатать секреты или передавать их недоверенному коду.
+
+53. What is the difference between an absolute path and a relative path?
+Абсолютный путь начинается от корня, например /home/eduard/devops/kim-eduard-student-api. Относительный отсчитывается от текущего каталога, например scripts/report.sh.
+
+54. How can you create and switch to a new Git branch?
+git switch -c feature/kim-eduard-example. Для существующей ветки git switch имя. Старый вариант создания и перехода — git checkout -b имя.
+
+55. Why does Jenkins need access to a Docker-capable agent to build Docker images?
+Шаг sh docker build запускается на выбранном исполнителе. Там нужны Docker CLI, работающий daemon и права доступа к нему. Наличие Docker только на компьютере пользователя не помогает удалённому агенту.
+
+56. What is the difference between a Docker network and a Docker volume?
+Network соединяет контейнеры и обеспечивает адресацию/DNS. Volume хранит данные. Сеть не сохраняет таблицы PostgreSQL, а volume не обеспечивает сетевое соединение.
+
+57. How can you search for a specific word in a file?
+grep -n Kim logs/Kim_Eduard_system_report.log. grep -i игнорирует регистр, grep -w ищет отдельное слово. Поиск без совпадений возвращает код 1, это не обязательно поломка программы.
+
+58. What is the purpose of the git init command?
+git init создаёт Git-репозиторий в каталоге, включая .git. Для новой работы удобно git init -b main. Не нужно повторять init при каждом запуске проекта.
+
+59. How can you view the logs of a running Docker container?
+docker logs --tail 50 имя-контейнера или docker compose logs --tail 50 app. -f следит за новым выводом. Это stdout/stderr процесса, а не любые файлы внутри контейнера.
+
+60. How can you configure a Jenkins pipeline to stop when automated tests fail?
+Запускать ./gradlew test обычным sh и не скрывать ненулевой код через || true или catchError. В стандартной последовательности Declarative Pipeline ошибка прервёт переход к обычным следующим стадиям.
+
+61. What is the difference between mkdir and mkdir -p?
+mkdir создаёт указанные папки, но без -p отсутствующие родители или уже существующая цель могут дать ошибку. mkdir -p создаёт родителей и допускает существующие каталоги.
+
+62. What is a Git tag, and how can it be used to identify a project version?
+Tag — имя конкретного коммита, обычно релиза. Annotated tag хранит также автора, дату и сообщение: git tag -a v1.0-kim-eduard -m "Kim Eduard release 1.0". Теги публикуются отдельно через git push origin имя-тега.
+
+63. How should database credentials be passed to a Spring Boot container?
+Передавать через environment из локального игнорируемого .env либо подходящее secret-хранилище. Spring Boot читает DB_URL/DB_USERNAME/DB_PASSWORD. Не вшивать пароль в образ, Java-код или публичный YAML.
+
+64. What is the purpose of the Build stage in a Jenkins pipeline?
+Build компилирует код и создаёт артефакт. В нашей Job clean assemble даёт app.jar; тесты вынесены в отдельную Test-стадию.
+
+65. What is the difference between cp and mv in Linux?
+cp копирует, сохраняя исходный файл. mv перемещает или переименовывает. Для резервной копии README используется cp README.md backups/Kim_Eduard_README_backup.md.
+
+66. What is the purpose of the git add command?
+git add кладёт текущее содержимое выбранных файлов в staging area. Правки, сделанные после add, нужно добавить снова, если хочешь включить их в тот же коммит.
+
+67. What information can you find in the Jenkins console output?
+Причину запуска, commit hash, checkout, команды, сообщения компилятора, тесты, Docker Build, ошибки и итоговый статус. Не нужно раскрывать пароли ради диагностики; полезнее показывать конкретную стадию и первую причину ошибки.
+
+68. How do you run a Docker container and map host port 8080 to container port 8080?
+Общий пример: docker run -d --name demo -p 8080:8080 IMAGE. Первый порт — host, второй — container. На нашем компьютере 8080 занят Jenkins, поэтому проект использует Compose с 127.0.0.1:8081:8080. Для Spring Boot также требуется доступная БД и настройки.
+
+69. What is Linux, and why is it commonly used in DevOps?
+Linux — ядро ОС; Ubuntu — дистрибутив на его основе с пользовательскими программами. В DevOps Linux распространён на серверах и в контейнерных окружениях, удобен для автоматизации через shell и стандартные инструменты.
+
+70. What is the difference between a Git commit and a Git tag?
+Commit — объект со снимком проекта, родителями, автором и сообщением. Tag — имя/отметка выбранного коммита, например релиза; сам по себе отдельный снимок исходников он не создаёт.
+
+71. What is the purpose of the docker-compose.yml file?
+YAML-конфигурация многоконтейнерного приложения: сервисы, image/build, порты, env, сеть, volume, зависимости и healthcheck. docker compose читает её из текущей папки.
+
+72. How can you investigate a failed Gradle build in Jenkins?
+Найти первую содержательную ошибку в Console Output нужной стадии и отчёт тестов. Проверить Java/JDK, wrapper, зависимости и рабочую папку. Повторить ./gradlew test --stacktrace или проблемную задачу на том же агенте. Исправить причину и отправить новый коммит.
+
+73. How do you create an empty file from the terminal?
+touch имя-файла создаёт пустой файл, если его нет. У существующего меняет timestamps, сохраняя содержимое. : > имя-файла принудительно обнуляет, поэтому с существующими доказательствами так не делаем.
+
+74. Why should commit messages be meaningful?
+Сообщение объясняет смысл изменения для проверки, поиска ошибок и будущего сопровождения. "Kim Eduard: add case-insensitive student search" полезнее, чем "update". В задании также требуется твоё имя.
+
+75. What is the purpose of the Test stage in a Jenkins pipeline?
+Test выполняет автоматические проверки до Docker Build и публикации. В main проекта 16 тестов CRUD, поиска, идентификации, валидации и обработки ошибок.
+
+76. How can you execute a command inside a running Docker container?
+docker exec -it имя sh либо docker compose exec app java -version. Контейнер уже должен работать. exec не создаёт новый контейнер из образа, а запускает дополнительный процесс в существующем.
+
+77. How can you search a log file for your surname and save the results to another file?
+grep -n Kim logs/Kim_Eduard_system_report.log > Kim_Eduard_log_analysis.txt; затем cat Kim_Eduard_log_analysis.txt. > сохраняет свежий результат, >> дописывал бы к предыдущему.
+
+78. Your local code differs from the code on GitHub. How would you investigate and safely synchronize the changes?
+Сначала git status и remote -v, затем git fetch origin; сравнить git log --left-right --graph HEAD...origin/main и git diff. Сохранить свои правки commit/stash. При отсутствии расхождения использовать pull --ff-only; иначе осознанно merge либо rebase неопубликованной работы с разрешением конфликтов. Не применять force push без причины.
+
+79. Your Spring Boot container cannot connect to PostgreSQL. How would you troubleshoot the problem?
+Проверить compose ps -a и логи app/db. Затем healthcheck/pg_isready, DB_URL с db:5432, общую сеть и соответствие credentials существующей БД. localhost внутри app ошибочен. Новый POSTGRES_PASSWORD не меняет пароль уже созданной БД в volume. Сначала диагностика и сохранение данных, а не down -v.
+
+80. Your Jenkins pipeline successfully compiles the application but fails during Docker image creation. How would you identify and fix the problem?
+Открыть Docker Build и первую ошибку, проверить docker version/daemon/права именно на агенте. Проверить Dockerfile, build context, COPY-пути, наличие wrapper и доступ к base image/Gradle dependencies. Повторить docker build --progress=plain на том же агенте. Исправить конкретную причину, commit/push и повторить pipeline.
+
+Первичные справочники: https://git-scm.com/docs ; https://docs.docker.com/ ; https://www.jenkins.io/doc/book/pipeline/syntax/ ; https://docs.gradle.org/current/userguide/gradle_wrapper.html

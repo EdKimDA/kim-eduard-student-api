@@ -14,8 +14,12 @@ public class StudentService {
         this.repository = repository;
     }
 
-    public List<Student> list() {
-        return repository.findAll(Sort.by("id"));
+    public List<Student> list(String name) {
+        Sort sort = Sort.by("id");
+        if (name == null || name.isBlank()) {
+            return repository.findAll(sort);
+        }
+        return repository.findByNameContainingIgnoreCase(name.trim(), sort);
     }
 
     public Student get(long id) {

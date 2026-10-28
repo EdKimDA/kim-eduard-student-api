@@ -82,6 +82,16 @@ python3 scripts/api_smoke_test.py
 
 This creates a personal test record with a unique demo suffix and removes that same record after verification. HTTP responses are saved to `evidence/api-smoke.json`.
 
+## Personal CRUD improvement
+
+Kim Eduard added optional case-insensitive filtering to the read operation:
+
+```bash
+curl 'http://127.0.0.1:8081/api/students?name=eduard'
+```
+
+An absent or blank `name` returns the complete list. A search without matches returns an empty array. Automated tests cover matching, blank and unmatched searches.
+
 ## Containers and data persistence
 
 ```bash

@@ -149,4 +149,19 @@ class StudentApiTests {
                 .andExpect(jsonPath("$.length()").value(1))
                 .andExpect(jsonPath("$[0].name").value("Kim Eduard"));
     }
+
+    @Test
+    void blankSearchReturnsAllStudents() throws Exception {
+        create("Kim Eduard", "37324");
+        create("Another Student", "99999");
+        mvc.perform(get("/api/students").param("name", "  "))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.length()").value(2));
+    }
+
+    @Test
+    void unmatchedSearchReturnsAnEmptyList() throws Exception {
+        create("Kim Eduard", "37324");
+        mvc.perform(get("/api/students").param("name", "not-present"))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.length()").value(0));
+    }
 }

@@ -1,0 +1,44 @@
+name: kim-eduard-student-api
+
+services:
+  app:
+    build: .
+    image: kim-eduard-student-api:v1.0.0-kim-eduard-37324
+    container_name: kim-eduard-student-api-app
+    ports:
+      - "127.0.0.1:${APP_PORT:-8081}:8080"
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/${POSTGRES_DB:-kim_eduard_students}
+      DB_USERNAME: ${POSTGRES_USER:-kim_eduard}
+      DB_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in a local .env file}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - student-network
+
+  db:
+    image: postgres:17-bookworm
+    container_name: kim-eduard-student-api-db
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-kim_eduard_students}
+      POSTGRES_USER: ${POSTGRES_USER:-kim_eduard}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in a local .env file}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 10s
+    networks:
+      - student-network
+
+volumes:
+  postgres-data:
+    name: kim-eduard-student-api-postgres-data
+
+networks:
+  student-network:
+    name: kim-eduard-student-api-network

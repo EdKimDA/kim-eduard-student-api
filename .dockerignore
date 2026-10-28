@@ -1,0 +1,11 @@
+.git
+.gradle
+build
+.env
+.env.*
+logs
+backups
+evidence
+*_log_analysis.txt
+.idea
+*.iml

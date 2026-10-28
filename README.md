@@ -42,6 +42,9 @@ grep 'Kim' logs/Kim_Eduard_system_report.log > Kim_Eduard_log_analysis.txt
 
 ## Local environment
 
+For a fresh clone, `./scripts/prepare_local.sh` creates the required local directories and a random database password if `.env` does not exist. It preserves an existing password and applies Linux permissions. Git preserves the executable bit but does not preserve the complete permission mode 744, so run this helper after cloning.
+
+
 Copy `.env.example` to `.env` and replace `POSTGRES_PASSWORD` with a locally generated value. Keep `.env` untracked and readable only by its owner (`chmod 600 .env`).
 
 ```bash
@@ -103,6 +106,8 @@ docker compose start app
 docker compose down
 docker compose up -d
 ```
+
+Run `python3 scripts/check_persistence.py` for an automated PostgreSQL persistence demonstration. It keeps the personal record with student ID 37324 and writes before/after evidence.
 
 Create a student before `down` and retrieve the same database-generated ID after `up`. The named volume preserves records across container recreation. `down -v` removes the volume and its data; it is not part of the persistence demonstration.
 

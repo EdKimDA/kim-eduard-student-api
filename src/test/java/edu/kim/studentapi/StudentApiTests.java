@@ -139,4 +139,14 @@ class StudentApiTests {
         mvc.perform(post("/api/students").contentType(MediaType.APPLICATION_JSON)
                 .content("{invalid")).andExpect(status().isBadRequest());
     }
+
+    @Test
+    void filtersNamesWithoutCaseSensitivity() throws Exception {
+        create("Kim Eduard", "37324");
+        create("Another Student", "99999");
+        mvc.perform(get("/api/students").param("name", "eDuArD"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].name").value("Kim Eduard"));
+    }
 }

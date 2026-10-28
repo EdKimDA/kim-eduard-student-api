@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -23,8 +24,8 @@ public class StudentController {
     }
 
     @GetMapping
-    public List<Student> list() {
-        return service.list();
+    public List<Student> list(@RequestParam(name = "name", required = false) String name) {
+        return service.list(name);
     }
 
     @GetMapping("/{id}")

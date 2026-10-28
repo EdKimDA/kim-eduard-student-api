@@ -146,10 +146,3 @@ git check-ignore .env logs/Kim_Eduard_system_report.log
 ```
 
 Release tag: `v1.0-kim-eduard`. Credentials, `.env`, local Gradle caches, generated logs and database data are not committed.
-
-## Midterm preparation
-
-Russian step-by-step guide: [MIDTERM_GUIDE_RU.txt](MIDTERM_GUIDE_RU.txt).
-Answers to all 80 defense questions: [DEFENSE_ANSWERS_RU.txt](DEFENSE_ANSWERS_RU.txt).
-Version 1.0.1 demonstrates rebuilding after an application version change.
-The required release tag `v1.0-kim-eduard` remains attached to the original 1.0 release commit.

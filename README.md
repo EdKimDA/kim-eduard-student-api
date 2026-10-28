@@ -3,7 +3,7 @@
 Student: **Kim Eduard**, group **IT2-2313**, Student ID **37324**.
 
 Spring Boot CRUD application with PostgreSQL, Gradle, Docker Compose and Jenkins CI.
-Documentation status: base.
+Documentation status: README enriched by Kim Eduard.
 
 ## Requirements and versions
 
